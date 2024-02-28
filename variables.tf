@@ -26,24 +26,24 @@ variable "private_subnet_cidrs" {
 }
 
 variable "instance_type" {
-  default     = "t2.micro"
+  default = "t2.micro"
 }
 
 variable "auto_scaling_group" {
   description = "Auto Scaling Group configuration"
   default = {
-    min_size          = 2
-    max_size          = 5
-    desired_capacity  = 2
+    min_size         = 2
+    max_size         = 5
+    desired_capacity = 2
   }
 }
 
-variable ingressRule {
+variable "ingressRule" {
   type        = list(number)
   default     = [80, 443]
   description = "description"
 }
-variable egressRule {
+variable "egressRule" {
   type        = list(number)
   default     = [80, 443]
   description = "description"

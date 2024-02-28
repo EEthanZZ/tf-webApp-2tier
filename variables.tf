@@ -37,3 +37,14 @@ variable "auto_scaling_group" {
     desired_capacity  = 2
   }
 }
+
+variable ingressRule {
+  type        = list(number)
+  default     = [80, 443]
+  description = "description"
+}
+variable egressRule {
+  type        = list(number)
+  default     = [80, 443, 25, 3306, 53, 8080]
+  description = "description"
+}

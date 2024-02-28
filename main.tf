@@ -190,6 +190,7 @@ resource "aws_lb_listener" "front_end" {
 resource "aws_security_group" "alb-sg" {
   description = "Allow inbound traffic from anywhere on port 80 and 443"
   name        = "alb_sg"
+  vpc_id      = aws_vpc.main.id  # Add this line to associate the security group with the VPC
   dynamic "ingress" {
     iterator = port
     for_each = var.ingressRule
@@ -234,4 +235,9 @@ resource "aws_security_group" "asg-sg" {
   tags = {
     Name = "asg-sg"
   }
+}
+
+output "lb_dns_name" {
+  description = "The DNS name of our ALB"
+  value       = aws_lb.alb_public_sub.dns_name
 }

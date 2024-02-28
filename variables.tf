@@ -40,3 +40,22 @@ variable "private_subnet_cidr_2" {
   description = "The CIDR block for private subnet 2 of 2"
   default     = "10.0.4.0/24"
 }
+
+variable "instance_type" {
+  default     = "t2.micro"
+}
+
+variable "min_size" {
+  description = "The minimum size of the auto scaling group"
+  default     = 2
+}
+
+variable "max_size" {
+  description = "The maximum size of the auto scaling group"
+  default     = 5
+}
+
+variable "desired_capacity" {
+  description = "The desired size of the auto scaling group"
+  default     = 2
+}

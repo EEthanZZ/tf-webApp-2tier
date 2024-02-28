@@ -45,6 +45,6 @@ variable ingressRule {
 }
 variable egressRule {
   type        = list(number)
-  default     = [80, 443, 25, 3306, 53, 8080]
+  default     = [80, 443]
   description = "description"
 }

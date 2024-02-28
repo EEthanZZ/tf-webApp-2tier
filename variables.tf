@@ -4,16 +4,10 @@ variable "region" {
   description = "AWS region"
 }
 
-variable "availability_zone_1" {
-  type        = string
-  default     = "us-east-2a"
-  description = "Availability Zone 1"
-}
-
-variable "availability_zone_2" {
-  type        = string
-  default     = "us-east-2b"
-  description = "Availability Zone 2"
+variable "availability_zones" {
+  type        = list(string)
+  default     = ["us-east-2a", "us-east-2b"]
+  description = "List of Availability Zones"
 }
 
 variable "vpc_cidr" {
@@ -21,41 +15,25 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "public_subnet_cidr_1" {
-  description = "The CIDR block for public subnet 1 of 2"
-  default     = "10.0.1.0/24"
+variable "public_subnet_cidrs" {
+  description = "The CIDR blocks for public subnets"
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-variable "public_subnet_cidr_2" {
-  description = "The CIDR block for public subnet 2 of 2"
-  default     = "10.0.2.0/24"
-}
-
-variable "private_subnet_cidr_1" {
-  description = "The CIDR block for private subnet 1 of 2"
-  default     = "10.0.3.0/24"
-}
-
-variable "private_subnet_cidr_2" {
-  description = "The CIDR block for private subnet 2 of 2"
-  default     = "10.0.4.0/24"
+variable "private_subnet_cidrs" {
+  description = "The CIDR blocks for private subnets"
+  default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
 variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "min_size" {
-  description = "The minimum size of the auto scaling group"
-  default     = 2
-}
-
-variable "max_size" {
-  description = "The maximum size of the auto scaling group"
-  default     = 5
-}
-
-variable "desired_capacity" {
-  description = "The desired size of the auto scaling group"
-  default     = 2
+variable "auto_scaling_group" {
+  description = "Auto Scaling Group configuration"
+  default = {
+    min_size          = 2
+    max_size          = 5
+    desired_capacity  = 2
+  }
 }

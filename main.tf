@@ -84,3 +84,37 @@ resource "aws_route_table_association" "private_route_table_association_2" {
   subnet_id      = aws_subnet.private_subnet_2.id
   route_table_id = aws_route_table.private_route_table.id
 }
+
+# Get the latest AWS Linux 2023 image
+data "aws_ami" "amazon2023" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-x86_64"]
+  }
+    filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+}
+
+# Launch the ASG using AmazonLinux 2023
+# launch template configuration
+resource "aws_launch_configuration" "asg_config" {
+  name_prefix          = "myASG-"
+  image_id      = data.aws_ami.amazon2023.id
+  instance_type = var.instance_type
+  associate_public_ip_address = true
+    lifecycle {
+    create_before_destroy = true
+  }
+}
+# launch in private subnets
+resource "aws_autoscaling_group" "asg" {
+    name = "asg"
+    launch_configuration = aws_launch_configuration.asg_config.name
+    min_size = var.auto_scaling_group["min_size"]
+    max_size = var.auto_scaling_group["max_size"]
+    vpc_zone_identifier = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
+}

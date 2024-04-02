@@ -4,10 +4,12 @@ variable "region" {
   description = "AWS region"
 }
 
-variable "availability_zones" {
-  type        = list(string)
-  default     = ["us-east-2a", "us-east-2b"]
-  description = "List of Availability Zones"
+# available zones
+data "aws_availability_zones" "available" {
+  filter {
+    name   = "opt-in-status"
+    values = ["opt-in-not-required"]
+  }
 }
 
 variable "vpc_cidr" {
@@ -36,7 +38,7 @@ variable "auto_scaling_group" {
     max_size         = 5
     desired_capacity = 2
   }
-}
+} 
 
 variable "ingressRule" {
   type        = list(number)

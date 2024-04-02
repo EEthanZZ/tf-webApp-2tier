@@ -4,7 +4,7 @@ resource "aws_security_group" "alb-sg" {
   vpc_id      = aws_vpc.main.id
   
   dynamic "ingress" {
-    iterator = port
+    iterator = port 
     for_each = var.ingressRule
     content {
       from_port   = port.value

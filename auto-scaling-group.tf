@@ -45,7 +45,7 @@ resource "aws_autoscaling_group" "asg" {
   min_size             = var.auto_scaling_group["min_size"]
   max_size             = var.auto_scaling_group["max_size"]
   desired_capacity     = var.auto_scaling_group["desired_capacity"]
-  vpc_zone_identifier  = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
+  vpc_zone_identifier  = [for subnet in aws_subnet.private_subnets : subnet.id]
   
   target_group_arns = [aws_lb_target_group.tg.arn]
   

@@ -17,11 +17,11 @@ resource "aws_launch_configuration" "asg_config" {
   instance_type               = var.instance_type
   associate_public_ip_address = true
   security_groups             = [aws_security_group.asg-sg.id]
-  
+
   lifecycle {
     create_before_destroy = true
   }
-  
+
   user_data = <<-EOF
     #!/bin/bash
     sudo yum update -y
@@ -38,7 +38,7 @@ resource "aws_launch_configuration" "asg_config" {
     sudo systemctl restart httpd
   EOF
 }
- 
+
 resource "aws_autoscaling_group" "asg" {
   name                 = "asg"
   launch_configuration = aws_launch_configuration.asg_config.name
@@ -46,9 +46,9 @@ resource "aws_autoscaling_group" "asg" {
   max_size             = var.auto_scaling_group["max_size"]
   desired_capacity     = var.auto_scaling_group["desired_capacity"]
   vpc_zone_identifier  = [for subnet in aws_subnet.private_subnets : subnet.id]
-  
+
   target_group_arns = [aws_lb_target_group.tg.arn]
-  
+
   tag {
     key                 = "Name"
     value               = "ASG Instances"
